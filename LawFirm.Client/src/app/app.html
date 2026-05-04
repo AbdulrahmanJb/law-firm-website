@@ -1,0 +1,219 @@
+<router-outlet />
+
+<main [class.english]="language() === 'en'">
+  <div class="top-bar">
+    <div class="top-contact">
+      <span><span class="contact-icon">⌖</span>الرياض - المملكة العربية السعودية</span>
+      <a href="mailto:info@alfaifi-law.com"><span class="contact-icon">@</span>info@alfaifi-law.com</a>
+      <a href="tel:+966502905007" dir="ltr"><span class="contact-icon">☎</span>+966502905007</a>
+    </div>
+
+    <div class="top-social" aria-label="Social links">
+      <a href="#" aria-label="YouTube"><span class="youtube-icon"></span></a>
+      <a href="#" aria-label="TikTok"><span class="tiktok-icon">♪</span></a>
+      <a href="#" aria-label="X Twitter"><span class="x-icon">X</span></a>
+      <a href="tel:+966502905007" aria-label="Call"><span class="call-icon">☎</span></a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" routerLink="/" aria-label="Law firm home">
+      <img src="/assets/logo.png" alt="خالد الفيفي للمحاماة والاستشارات القانونية">
+    </a>
+
+    <nav class="main-nav">
+      <a routerLink="/">{{ language() === 'ar' ? 'الرئيسية' : 'Home' }}</a>
+      <a href="/#services">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
+      <a routerLink="/blogs">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</a>
+      <a routerLink="/videos">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Videos' }}</a>
+      <a href="/#contact">{{ language() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
+    </nav>
+
+    <div class="header-tools">
+      <div class="language-switch">
+        <button type="button" [class.active]="language() === 'ar'" (click)="switchLanguage('ar')">AR</button>
+        <button type="button" [class.active]="language() === 'en'" (click)="switchLanguage('en')">EN</button>
+      </div>
+      <a class="admin-link" routerLink="/admin">{{ language() === 'ar' ? 'دخول' : 'Login' }}</a>
+    </div>
+  </header>
+
+  <ng-container *ngIf="page() === 'home'">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">{{ language() === 'ar' ? 'مكتب محاماة واستشارات قانونية' : 'Law office and legal consultations' }}</p>
+        <h1>{{ language() === 'ar' ? 'حلول قانونية واضحة تحفظ حقوقك وتدعم قرارك' : 'Clear legal solutions that protect your rights' }}</h1>
+        <p>
+          {{ language() === 'ar'
+            ? 'نقدم خدمات قانونية متخصصة للأفراد والشركات، مع محتوى معرفي ومكتبة مرئية وطلبات استشارة منظمة.'
+            : 'Specialized legal services for individuals and companies, with articles, videos, and organized consultation requests.' }}
+        </p>
+        <div class="hero-actions">
+          <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
+          <a class="text-action" href="/#about">{{ language() === 'ar' ? 'تعرف على المكتب' : 'About the office' }}</a>
+        </div>
+      </div>
+
+      <div class="moving-feature">
+        <img src="/assets/logo.png" alt="خالد الفيفي">
+        <div>
+          <span>{{ language() === 'ar' ? 'خدمات قانونية' : 'Legal services' }}</span>
+          <strong>{{ language() === 'ar' ? 'استشارة، ترافع، عقود، قضايا تجارية' : 'Consulting, litigation, contracts, commercial cases' }}</strong>
+          <a routerLink="/" fragment="services">{{ language() === 'ar' ? 'اقرأ المزيد' : 'Read more' }}</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-band">
+      <div>
+        <p class="eyebrow">{{ language() === 'ar' ? 'عن المكتب' : 'About us' }}</p>
+        <h2>{{ language() === 'ar' ? 'نهج قانوني مهني بتواصل مباشر وواضح' : 'A professional legal approach with clear communication' }}</h2>
+      </div>
+      <p>
+        {{ language() === 'ar'
+          ? 'تم تصميم الموقع ليعرض هوية المكتب وخدماته، ويمنح الزائر طريقا سريعا للوصول إلى الاستشارة أو المحتوى القانوني المناسب.'
+          : 'The website presents the office identity and services while giving visitors a direct path to consultations and legal content.' }}
+      </p>
+    </section>
+
+    <section id="services" class="section">
+      <div class="section-heading">
+        <p>{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</p>
+        <h2>{{ language() === 'ar' ? 'مجالات العمل القانونية' : 'Legal practice areas' }}</h2>
+      </div>
+      <div class="service-list">
+        <article class="service-card" *ngFor="let service of services; let index = index">
+          <span>{{ index + 1 | number: '2.0' }}</span>
+          <div>
+            <h3>{{ text(service, 'title') }}</h3>
+            <p>{{ text(service, 'description') }}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="split-section">
+      <div class="section-heading">
+        <p>{{ language() === 'ar' ? 'محتوى قانوني' : 'Legal content' }}</p>
+        <h2>{{ language() === 'ar' ? 'اطلع على المقالات والفيديوهات' : 'Browse articles and videos' }}</h2>
+      </div>
+      <div class="preview-grid">
+        <a class="preview-card" routerLink="/blogs">
+          <span>{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</span>
+          <strong>{{ language() === 'ar' ? 'مقالات قانونية مختصرة' : 'Focused legal articles' }}</strong>
+          <em>{{ language() === 'ar' ? 'اقرأ المزيد' : 'Read more' }}</em>
+        </a>
+        <a class="preview-card dark" routerLink="/videos">
+          <span>{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</span>
+          <strong>{{ language() === 'ar' ? 'فيديوهات من يوتيوب' : 'Videos from YouTube' }}</strong>
+          <em>{{ language() === 'ar' ? 'مشاهدة' : 'Watch' }}</em>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="section-heading">
+        <p>{{ language() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</p>
+        <h2>{{ language() === 'ar' ? 'طلب استشارة' : 'Request a consultation' }}</h2>
+      </div>
+      <form class="form" (ngSubmit)="submitConsultation()">
+        <input name="fullName" [(ngModel)]="consultation.fullName" [placeholder]="language() === 'ar' ? 'الاسم الكامل' : 'Full name'" required>
+        <input name="phone" [(ngModel)]="consultation.phone" [placeholder]="language() === 'ar' ? 'رقم الجوال' : 'Phone'" required>
+        <input name="email" [(ngModel)]="consultation.email" [placeholder]="language() === 'ar' ? 'البريد الإلكتروني' : 'Email'">
+        <textarea name="message" [(ngModel)]="consultation.message" [placeholder]="language() === 'ar' ? 'اكتب طلبك' : 'Write your request'" required></textarea>
+        <button class="primary-action" type="submit">{{ language() === 'ar' ? 'إرسال الطلب' : 'Send request' }}</button>
+      </form>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="page() === 'blogs'">
+    <section class="page-hero">
+      <p class="eyebrow">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</p>
+      <h1>{{ language() === 'ar' ? 'مقالات قانونية' : 'Legal articles' }}</h1>
+    </section>
+    <section class="section">
+      <div class="article-grid">
+        <article class="article-card" *ngFor="let post of blogs">
+          <span>{{ language() === 'ar' ? 'مقال' : 'Article' }}</span>
+          <h2>{{ text(post, 'title') }}</h2>
+          <p>{{ text(post, 'excerpt') || text(post, 'content') }}</p>
+          <button type="button" *ngIf="adminToken" (click)="deleteBlog(post.id)">{{ language() === 'ar' ? 'حذف' : 'Delete' }}</button>
+        </article>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="page() === 'videos'">
+    <section class="page-hero">
+      <p class="eyebrow">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</p>
+      <h1>{{ language() === 'ar' ? 'فيديوهات قانونية من يوتيوب' : 'Legal videos from YouTube' }}</h1>
+    </section>
+    <section class="section">
+      <div class="video-grid">
+        <article class="video-card" *ngFor="let video of videos">
+          <iframe [src]="videoEmbedUrl(video.videoUrl)" title="YouTube video" allowfullscreen></iframe>
+          <div>
+            <h2>{{ text(video, 'title') }}</h2>
+            <p>{{ text(video, 'description') }}</p>
+            <a [href]="video.videoUrl" target="_blank" rel="noreferrer">{{ language() === 'ar' ? 'فتح في يوتيوب' : 'Open on YouTube' }}</a>
+            <button type="button" *ngIf="adminToken" (click)="deleteVideo(video.id)">{{ language() === 'ar' ? 'حذف' : 'Delete' }}</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="page() === 'admin'">
+    <section class="admin-panel">
+      <div class="section-heading">
+        <p>{{ language() === 'ar' ? 'خاص بالإدارة' : 'Admin only' }}</p>
+        <h1>{{ language() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}</h1>
+      </div>
+
+      <form class="form compact" *ngIf="!adminToken" (ngSubmit)="adminLogin()">
+        <input name="adminEmail" [(ngModel)]="login.email" placeholder="admin@lawfirm.local">
+        <input name="adminPassword" [(ngModel)]="login.password" type="password" placeholder="Password">
+        <button class="primary-action" type="submit">{{ language() === 'ar' ? 'تسجيل الدخول' : 'Sign in' }}</button>
+      </form>
+
+      <div *ngIf="adminToken" class="admin-content">
+        <button type="button" class="secondary-action" (click)="logout()">{{ language() === 'ar' ? 'تسجيل الخروج' : 'Logout' }}</button>
+
+        <div class="stats" *ngIf="dashboard">
+          <article><strong>{{ dashboard.todayVisits }}</strong><span>{{ language() === 'ar' ? 'زيارات اليوم' : 'Today visits' }}</span></article>
+          <article><strong>{{ dashboard.totalVisits }}</strong><span>{{ language() === 'ar' ? 'إجمالي الزيارات' : 'Total visits' }}</span></article>
+          <article><strong>{{ dashboard.pendingConsultations }}</strong><span>{{ language() === 'ar' ? 'استشارات جديدة' : 'New consultations' }}</span></article>
+          <article><strong>{{ dashboard.blogs }}</strong><span>{{ language() === 'ar' ? 'مقالات' : 'Blogs' }}</span></article>
+        </div>
+
+        <div class="admin-grid">
+          <form class="form" (ngSubmit)="addBlog()">
+            <h3>{{ language() === 'ar' ? 'إضافة مقال' : 'Add blog' }}</h3>
+            <input name="blogTitleAr" [(ngModel)]="newBlog.titleAr" placeholder="العنوان بالعربية">
+            <input name="blogTitleEn" [(ngModel)]="newBlog.titleEn" placeholder="English title">
+            <textarea name="blogExcerptAr" [(ngModel)]="newBlog.excerptAr" placeholder="نبذة بالعربية"></textarea>
+            <textarea name="blogExcerptEn" [(ngModel)]="newBlog.excerptEn" placeholder="English excerpt"></textarea>
+            <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ المقال' : 'Save blog' }}</button>
+          </form>
+
+          <form class="form" (ngSubmit)="addVideo()">
+            <h3>{{ language() === 'ar' ? 'إضافة فيديو' : 'Add video' }}</h3>
+            <input name="videoTitleAr" [(ngModel)]="newVideo.titleAr" placeholder="العنوان بالعربية">
+            <input name="videoTitleEn" [(ngModel)]="newVideo.titleEn" placeholder="English title">
+            <input name="videoUrl" [(ngModel)]="newVideo.videoUrl" placeholder="YouTube URL">
+            <textarea name="videoDescriptionAr" [(ngModel)]="newVideo.descriptionAr" placeholder="وصف بالعربية"></textarea>
+            <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ الفيديو' : 'Save video' }}</button>
+          </form>
+        </div>
+
+        <div class="table-wrap">
+          <h3>{{ language() === 'ar' ? 'طلبات الاستشارة' : 'Consultation requests' }}</h3>
+          <table>
+            <tr><th>Name</th><th>Phone</th><th>Message</th></tr>
+            <tr *ngFor="let item of consultations"><td>{{ item.fullName }}</td><td>{{ item.phone }}</td><td>{{ item.message }}</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</main>

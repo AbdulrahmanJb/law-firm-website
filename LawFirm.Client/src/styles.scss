@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap");
+
+:root {
+  --color-bg: #f8f5e4;
+  --color-bg-soft: #fffced;
+  --color-navy: #102b69;
+  --color-navy-dark: #071a45;
+  --color-gold: #9c850f;
+  --color-gold-dark: #7d6909;
+  --color-gold-soft: #d6c875;
+  --color-muted: #5f6680;
+  --color-border: #d8d0a5;
+  --color-white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-navy);
+  font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}

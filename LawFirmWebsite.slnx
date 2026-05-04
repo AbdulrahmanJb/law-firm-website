@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LawFirm.Api/LawFirm.Api.csproj" />
+  <Project Path="LawFirm.Infrastructure/LawFirm.Infrastructure.csproj" />
+</Solution>
