@@ -63,35 +63,65 @@ main {
 
 .top-social a {
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: var(--color-bg-soft);
+  background: transparent;
+  border: 0;
+  color: var(--color-white);
   display: inline-flex;
-  height: 28px;
+  height: 30px;
   justify-content: center;
   text-decoration: none;
-  width: 28px;
+  transition: filter 140ms ease, transform 140ms ease;
+  width: 30px;
 }
 
 .top-social a:hover {
-  background: var(--color-gold);
-  border-color: var(--color-gold);
+  color: var(--color-gold-soft);
+  filter: none;
+  transform: translateY(-1px);
 }
 
-.youtube-icon {
-  border-bottom: 6px solid transparent;
-  border-left: 10px solid currentColor;
-  border-top: 6px solid transparent;
+.top-social svg {
   display: block;
-  margin-inline-start: 2px;
+  fill: currentColor;
+  height: 18px;
+  width: 18px;
 }
 
-.tiktok-icon,
-.x-icon,
-.call-icon {
-  font-size: 13px;
-  font-weight: 900;
-  line-height: 1;
+.top-social .icon-cutout {
+  fill: var(--color-navy);
+}
+
+.youtube-link {
+  color: #ffffff !important;
+}
+
+.snapchat-link {
+  color: #ffffff !important;
+}
+
+.tiktok-link {
+  color: #ffffff !important;
+}
+
+.tiktok-link svg {
+  height: 20px;
+  width: 20px;
+}
+
+.tiktok-cyan {
+  fill: currentColor;
+}
+
+.tiktok-pink {
+  fill: currentColor;
+}
+
+.x-link {
+  color: #ffffff !important;
+}
+
+.phone-link {
+  color: #ffffff !important;
 }
 
 .site-header {

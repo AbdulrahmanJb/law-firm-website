@@ -44,7 +44,7 @@ export class App implements OnInit {
   consultation = { fullName: '', phone: '', email: '', message: '' };
   login = { email: 'admin@lawfirm.local', password: 'ChangeMe123!' };
   newBlog = { titleAr: '', titleEn: '', excerptAr: '', excerptEn: '', contentAr: '', contentEn: '', isPublished: true };
-  newVideo = { titleAr: '', titleEn: '', descriptionAr: '', descriptionEn: '', videoUrl: '', isPublished: true };
+  newVideo = { videoUrl: '' };
 
   constructor(
     private readonly http: HttpClient,
@@ -83,7 +83,7 @@ export class App implements OnInit {
   videoEmbedUrl(url?: string): SafeResourceUrl {
     if (!url) return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
 
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/);
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/)([^&?/]+)/);
     const embedUrl = match ? `https://www.youtube.com/embed/${match[1]}` : url;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
@@ -125,8 +125,17 @@ export class App implements OnInit {
   }
 
   addVideo(): void {
-    this.http.post(`${this.apiUrl}/admin/videos`, this.newVideo, this.adminHeaders()).subscribe(() => {
-      this.newVideo = { titleAr: '', titleEn: '', descriptionAr: '', descriptionEn: '', videoUrl: '', isPublished: true };
+    const video = {
+      titleAr: 'فيديو من يوتيوب',
+      titleEn: 'YouTube video',
+      descriptionAr: 'تمت إضافة هذا الفيديو من لوحة التحكم.',
+      descriptionEn: 'This video was added from the dashboard.',
+      videoUrl: this.newVideo.videoUrl,
+      isPublished: true
+    };
+
+    this.http.post(`${this.apiUrl}/admin/videos`, video, this.adminHeaders()).subscribe(() => {
+      this.newVideo = { videoUrl: '' };
       this.loadPublicContent();
       this.loadAdmin();
     });
