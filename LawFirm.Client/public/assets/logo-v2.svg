@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="520" viewBox="0 0 720 520" role="img" aria-labelledby="title desc">
+  <title id="title">خالد الفيفي للمحاماة والاستشارات القانونية</title>
+  <desc id="desc">شعار لمكتب خالد الفيفي للمحاماة والاستشارات القانونية</desc>
+
+  <defs>
+    <style>
+      .bg { fill: #f8f5e4; }
+      .navy { fill: #102b69; }
+      .gold { fill: #9c850f; }
+      .gold-line {
+        fill: none;
+        stroke: #9c850f;
+        stroke-width: 12;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .gold-line-light {
+        fill: none;
+        stroke: #9c850f;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .wordmark {
+        direction: rtl;
+        dominant-baseline: middle;
+        font-family: "Aref Ruqaa", "Amiri", "Times New Roman", serif;
+        font-size: 86px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        direction: rtl;
+        dominant-baseline: middle;
+        font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+    </style>
+  </defs>
+
+  <rect class="bg" width="720" height="520"/>
+
+  <!-- Compact legal mark -->
+  <g transform="translate(360 166)">
+    <circle class="gold" cx="0" cy="-86" r="20"/>
+    <rect class="gold" x="-11" y="-58" width="22" height="158" rx="3"/>
+    <rect class="gold" x="-25" y="-64" width="50" height="13" rx="2"/>
+
+    <path class="gold-line" d="M-16 -43 C-70 -72 -103 -28 -154 -36"/>
+    <path class="gold-line" d="M16 -43 C70 -72 103 -28 154 -36"/>
+
+    <g transform="translate(-162 -32)">
+      <circle class="gold" cx="0" cy="0" r="13"/>
+      <path class="gold-line-light" d="M0 8 0 118"/>
+      <path class="gold-line-light" d="M0 8 -41 118"/>
+      <path class="gold-line-light" d="M0 8 41 118"/>
+      <path class="gold" d="M-68 118H68c-9 26-39 42-68 42s-59-16-68-42Z"/>
+      <rect class="gold" x="-73" y="113" width="146" height="10" rx="3"/>
+    </g>
+
+    <g transform="translate(162 -32)">
+      <circle class="gold" cx="0" cy="0" r="13"/>
+      <path class="gold-line-light" d="M0 8 0 118"/>
+      <path class="gold-line-light" d="M0 8 -41 118"/>
+      <path class="gold-line-light" d="M0 8 41 118"/>
+      <path class="gold" d="M-68 118H68c-9 26-39 42-68 42s-59-16-68-42Z"/>
+      <rect class="gold" x="-73" y="113" width="146" height="10" rx="3"/>
+    </g>
+  </g>
+
+  <!-- Arabic wordmark kept clean and readable -->
+  <text class="wordmark navy" x="360" y="333" text-anchor="middle">خالد الفيفي</text>
+
+  <g transform="translate(360 400)">
+    <line class="gold-line-light" x1="-176" y1="0" x2="176" y2="0"/>
+    <text class="subtitle navy" x="0" y="38" text-anchor="middle">للمحاماة والاستشارات القانونية</text>
+    <line class="gold-line-light" x1="-176" y1="76" x2="176" y2="76"/>
+  </g>
+</svg>

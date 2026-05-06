@@ -42,12 +42,12 @@
 
   <header class="site-header">
     <a class="brand" routerLink="/" aria-label="Law firm home">
-      <img src="/assets/logo.png" alt="خالد الفيفي للمحاماة والاستشارات القانونية">
+      <img src="/assets/logo-clean.png" alt="خالد الفيفي للمحاماة والاستشارات القانونية">
     </a>
 
     <nav class="main-nav">
       <a routerLink="/">{{ language() === 'ar' ? 'الرئيسية' : 'Home' }}</a>
-      <a href="/#services">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
+      <a routerLink="/services">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
       <a routerLink="/blogs">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</a>
       <a routerLink="/videos">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Videos' }}</a>
       <a href="/#contact">{{ language() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
@@ -63,41 +63,92 @@
   </header>
 
   <ng-container *ngIf="page() === 'home'">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">{{ language() === 'ar' ? 'مكتب محاماة واستشارات قانونية' : 'Law office and legal consultations' }}</p>
-        <h1>{{ language() === 'ar' ? 'حلول قانونية واضحة تحفظ حقوقك وتدعم قرارك' : 'Clear legal solutions that protect your rights' }}</h1>
+    <section class="hero statement-hero">
+      <img class="hero-watermark" src="/assets/logo-clean.png" alt="">
+      <div class="hero-copy statement-copy">
+        <p class="eyebrow">{{ language() === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations' }}</p>
+        <h1>{{ language() === 'ar' ? 'حماية حقوقك تبدأ باستشارة قانونية واضحة' : 'Protecting your rights starts with clear legal advice' }}</h1>
+        <span class="hero-rule"></span>
         <p>
           {{ language() === 'ar'
-            ? 'نقدم خدمات قانونية متخصصة للأفراد والشركات، مع محتوى معرفي ومكتبة مرئية وطلبات استشارة منظمة.'
-            : 'Specialized legal services for individuals and companies, with articles, videos, and organized consultation requests.' }}
+            ? 'نقدم خدمات قانونية احترافية للأفراد والشركات وفق الأنظمة والتشريعات في المملكة العربية السعودية، مع التزام كامل بالسرية والمهنية وسرعة الاستجابة.'
+            : 'Professional legal services for individuals and companies, aligned with Saudi laws and built on confidentiality, professionalism, and responsiveness.' }}
         </p>
         <div class="hero-actions">
           <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
-          <a class="text-action" href="/#about">{{ language() === 'ar' ? 'تعرف على المكتب' : 'About the office' }}</a>
-        </div>
-      </div>
-
-      <div class="moving-feature">
-        <img src="/assets/logo.png" alt="خالد الفيفي">
-        <div>
-          <span>{{ language() === 'ar' ? 'خدمات قانونية' : 'Legal services' }}</span>
-          <strong>{{ language() === 'ar' ? 'استشارة، ترافع، عقود، قضايا تجارية' : 'Consulting, litigation, contracts, commercial cases' }}</strong>
-          <a routerLink="/" fragment="services">{{ language() === 'ar' ? 'اقرأ المزيد' : 'Read more' }}</a>
+          <a class="text-action" href="/#about">{{ language() === 'ar' ? 'من نحن' : 'About us' }}</a>
         </div>
       </div>
     </section>
 
-    <section id="about" class="about-band">
-      <div>
-        <p class="eyebrow">{{ language() === 'ar' ? 'عن المكتب' : 'About us' }}</p>
-        <h2>{{ language() === 'ar' ? 'نهج قانوني مهني بتواصل مباشر وواضح' : 'A professional legal approach with clear communication' }}</h2>
+    <section id="about" class="about-story">
+      <div class="about-label">
+        <span>{{ language() === 'ar' ? 'من نحن' : 'About us' }}</span>
       </div>
-      <p>
-        {{ language() === 'ar'
-          ? 'تم تصميم الموقع ليعرض هوية المكتب وخدماته، ويمنح الزائر طريقا سريعا للوصول إلى الاستشارة أو المحتوى القانوني المناسب.'
-          : 'The website presents the office identity and services while giving visitors a direct path to consultations and legal content.' }}
-      </p>
+      <div class="about-story-content">
+        <div class="section-heading">
+          <p>{{ language() === 'ar' ? 'من نحن' : 'About us' }}</p>
+          <h2>{{ language() === 'ar' ? 'مكتب محاماة خالد الفيفي' : 'Khaled Al-Faifi Law Office' }}</h2>
+        </div>
+
+        <div class="about-copy" *ngIf="language() === 'ar'">
+          <p>
+            في مكتب محاماة خالد الفيفي، نؤمن بأن العمل القانوني لا يقتصر على تقديم الاستشارات فحسب، بل يمتد إلى بناء الثقة، وحماية الحقوق، وتقديم حلول قانونية احترافية تواكب الأنظمة والتشريعات في المملكة العربية السعودية. نسعى إلى تقديم خدمات قانونية متكاملة للأفراد والشركات بكفاءة عالية واهتمام دقيق بالتفاصيل، مع الالتزام بأعلى معايير المهنية والسرية.
+          </p>
+          <p>
+            نقدم خدماتنا في مختلف المجالات القانونية، بما يشمل القضايا التجارية، والأحوال الشخصية، والقضايا العمالية، وصياغة العقود، والاستشارات القانونية، والترافع أمام الجهات القضائية، مع الحرص على دراسة كل قضية بعناية للوصول إلى أفضل الحلول القانونية الممكنة.
+          </p>
+          <p>
+            ويعمل المكتب برؤية ترتكز على الجودة والمصداقية وسرعة الاستجابة، بهدف توفير تجربة قانونية احترافية تمنح عملاءنا الثقة والوضوح في جميع مراحل العمل القانوني. كما نحرص على تطوير خدماتنا باستمرار بما يواكب التحول الرقمي واحتياجات العملاء المتجددة.
+          </p>
+        </div>
+
+        <div class="about-copy" *ngIf="language() === 'en'">
+          <p>
+            At Khaled Al-Faifi Law Office, legal work extends beyond consultation. It is about building trust, protecting rights, and delivering professional legal solutions aligned with Saudi laws and regulations.
+          </p>
+          <p>
+            The office provides integrated legal services for individuals and companies across commercial matters, personal status, labor cases, contract drafting, legal consultations, and litigation.
+          </p>
+          <p>
+            Our work is guided by quality, credibility, responsiveness, confidentiality, and a commitment to clear legal support at every stage.
+          </p>
+        </div>
+      </div>
+
+      <aside class="about-principles">
+        <article>
+          <strong>{{ language() === 'ar' ? 'الثقة' : 'Trust' }}</strong>
+          <span>{{ language() === 'ar' ? 'علاقة مهنية واضحة مع العميل' : 'Clear professional client relationships' }}</span>
+        </article>
+        <article>
+          <strong>{{ language() === 'ar' ? 'السرية' : 'Confidentiality' }}</strong>
+          <span>{{ language() === 'ar' ? 'التزام كامل بحماية المعلومات' : 'Full commitment to protecting information' }}</span>
+        </article>
+        <article>
+          <strong>{{ language() === 'ar' ? 'الاحتراف' : 'Professionalism' }}</strong>
+          <span>{{ language() === 'ar' ? 'حلول قانونية دقيقة ومدروسة' : 'Precise and considered legal solutions' }}</span>
+        </article>
+      </aside>
+    </section>
+
+    <section id="services" class="services-preview">
+      <div class="section-heading">
+        <p>{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</p>
+        <h2>{{ language() === 'ar' ? 'خدماتنا القانونية' : 'Our legal services' }}</h2>
+      </div>
+      <div class="home-services-grid">
+        <a class="home-service-card" routerLink="/services" *ngFor="let service of legalServices.slice(0, 6); let index = index">
+          <span class="service-icon">{{ service.icon }}</span>
+          <small>{{ index + 1 | number: '2.0' }}</small>
+          <h3>{{ language() === 'ar' ? service.titleAr : service.titleEn }}</h3>
+          <p>{{ language() === 'ar' ? service.summaryAr : service.summaryEn }}</p>
+          <em>{{ language() === 'ar' ? 'تفاصيل الخدمة' : 'Service details' }}</em>
+        </a>
+      </div>
+      <a class="services-more" routerLink="/services">
+        {{ language() === 'ar' ? 'عرض جميع الخدمات' : 'View all services' }}
+      </a>
     </section>
 
     <section id="services" class="section">
@@ -150,6 +201,59 @@
     </section>
   </ng-container>
 
+  <ng-container *ngIf="page() === 'services'">
+    <section class="page-hero services-page-hero">
+      <img class="services-hero-mark" src="/assets/logo-clean.png" alt="">
+      <div class="services-hero-content">
+        <p class="eyebrow">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</p>
+        <h1>{{ language() === 'ar' ? 'خدماتنا القانونية' : 'Our legal services' }}</h1>
+        <span class="services-title-line"></span>
+        <p>
+          {{ language() === 'ar'
+            ? 'نقدم منظومة خدمات قانونية متكاملة تراعي طبيعة كل عميل واحتياجاته، وتجمع بين الدقة النظامية والفهم العملي للقطاع.'
+            : 'A complete legal service model tailored to each client, combining regulatory precision with practical sector understanding.' }}
+        </p>
+        <div class="services-hero-badges">
+          <span>{{ language() === 'ar' ? 'دقة نظامية' : 'Regulatory precision' }}</span>
+          <span>{{ language() === 'ar' ? 'حلول عملية' : 'Practical solutions' }}</span>
+          <span>{{ language() === 'ar' ? 'سرية ومهنية' : 'Confidentiality' }}</span>
+        </div>
+        <div class="services-hero-metrics">
+          <article>
+            <strong>09</strong>
+            <span>{{ language() === 'ar' ? 'مجالات قانونية' : 'Practice areas' }}</span>
+          </article>
+          <article>
+            <strong>360</strong>
+            <span>{{ language() === 'ar' ? 'رؤية متكاملة' : 'Integrated view' }}</span>
+          </article>
+          <article>
+            <strong>24</strong>
+            <span>{{ language() === 'ar' ? 'استجابة مهنية' : 'Professional response' }}</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section services-page">
+      <article class="service-detail-card" *ngFor="let service of legalServices; let index = index">
+        <div class="service-detail-icon">
+          <span>{{ service.icon }}</span>
+          <small>{{ index + 1 | number: '2.0' }}</small>
+        </div>
+        <div class="service-detail-body">
+          <h2>{{ language() === 'ar' ? service.titleAr : service.titleEn }}</h2>
+          <p>{{ language() === 'ar' ? service.summaryAr : service.summaryEn }}</p>
+          <ul>
+            <li *ngFor="let point of (language() === 'ar' ? service.pointsAr : service.pointsEn)">
+              {{ point }}
+            </li>
+          </ul>
+        </div>
+      </article>
+    </section>
+  </ng-container>
+
   <ng-container *ngIf="page() === 'blogs'">
     <section class="page-hero">
       <p class="eyebrow">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</p>
@@ -172,7 +276,7 @@
       <p class="eyebrow">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</p>
       <h1>{{ language() === 'ar' ? 'فيديوهات قانونية من يوتيوب' : 'Legal videos from YouTube' }}</h1>
     </section>
-    <section class="section">
+    <section class="section video-library-section">
       <div class="video-grid">
         <article class="video-card" *ngFor="let video of videos">
           <iframe [src]="videoEmbedUrl(video.videoUrl)" title="YouTube video" allowfullscreen></iframe>
@@ -222,6 +326,8 @@
 
           <form class="form" (ngSubmit)="addVideo()">
             <h3>{{ language() === 'ar' ? 'إضافة فيديو' : 'Add video' }}</h3>
+            <input name="videoTitleAr" [(ngModel)]="newVideo.titleAr" [placeholder]="language() === 'ar' ? 'عنوان الفيديو بالعربية' : 'Arabic video subject'">
+            <input name="videoTitleEn" [(ngModel)]="newVideo.titleEn" [placeholder]="language() === 'ar' ? 'عنوان الفيديو بالإنجليزية اختياري' : 'English video subject optional'">
             <input name="videoUrl" [(ngModel)]="newVideo.videoUrl" placeholder="YouTube video URL" required>
             <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ الفيديو' : 'Save video' }}</button>
           </form>
