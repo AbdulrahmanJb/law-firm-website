@@ -64,25 +64,40 @@
         <button type="button" [class.active]="language() === 'ar'" (click)="switchLanguage('ar')">AR</button>
         <button type="button" [class.active]="language() === 'en'" (click)="switchLanguage('en')">EN</button>
       </div>
-      <a class="admin-link" routerLink="/admin">{{ language() === 'ar' ? 'دخول' : 'Login' }}</a>
     </div>
   </header>
 
   <ng-container *ngIf="page() === 'home'">
     <section class="hero statement-hero">
+      <span class="hero-slide slide-one" aria-hidden="true"></span>
+      <span class="hero-slide slide-two" aria-hidden="true"></span>
       <img class="hero-watermark" src="/assets/logo-clean.png" alt="">
       <div class="hero-copy statement-copy">
-        <p class="eyebrow">{{ language() === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations' }}</p>
-        <h1>{{ language() === 'ar' ? 'حماية حقوقك تبدأ باستشارة قانونية واضحة' : 'Protecting your rights starts with clear legal advice' }}</h1>
-        <span class="hero-rule"></span>
-        <p>
-          {{ language() === 'ar'
-            ? 'نقدم خدمات قانونية احترافية للأفراد والشركات وفق الأنظمة والتشريعات في المملكة العربية السعودية، مع التزام كامل بالسرية والمهنية وسرعة الاستجابة.'
-            : 'Professional legal services for individuals and companies, aligned with Saudi laws and built on confidentiality, professionalism, and responsiveness.' }}
-        </p>
-        <div class="hero-actions">
-          <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
-          <a class="text-action" href="/#about">{{ language() === 'ar' ? 'من نحن' : 'About us' }}</a>
+        <div class="hero-message message-one">
+          <p class="eyebrow">{{ language() === 'ar' ? 'مرحباً بكم' : 'Welcome' }}</p>
+          <h1>{{ language() === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations' }}</h1>
+          <span class="hero-rule"></span>
+          <p>
+            {{ language() === 'ar'
+              ? 'نقدم خدمات قانونية دقيقة تحفظ الحقوق وتمنحك وضوحاً قبل القرار.'
+              : 'Precise legal services that protect rights and give you clarity before decisions.' }}
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" routerLink="/services">{{ language() === 'ar' ? 'خدماتنا' : 'Our services' }}</a>
+          </div>
+        </div>
+        <div class="hero-message message-two">
+          <p class="eyebrow">{{ language() === 'ar' ? 'تحتاج إلى مساعدة قانونية؟' : 'Need legal support?' }}</p>
+          <h1>{{ language() === 'ar' ? 'احجز استشارتك القانونية' : 'Request your legal consultation' }}</h1>
+          <span class="hero-rule"></span>
+          <p>
+            {{ language() === 'ar'
+              ? 'استشارة مهنية تساعدك على فهم موقفك النظامي والخطوة المناسبة.'
+              : 'Professional advice to understand your legal position and the right next step.' }}
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
+          </div>
         </div>
       </div>
     </section>
@@ -152,18 +167,6 @@
           <em>{{ language() === 'ar' ? 'تفاصيل الخدمة' : 'Service details' }}</em>
         </a>
       </div>
-      <div class="section-image-row services-image-row">
-        <img src="/assets/office-services-ai.png" alt="">
-        <div>
-          <span>{{ language() === 'ar' ? 'بيئة عمل احترافية' : 'Professional setting' }}</span>
-          <strong>{{ language() === 'ar' ? 'خدمات قانونية بهدوء ودقة وتنظيم' : 'Legal services with clarity and precision' }}</strong>
-          <p>
-            {{ language() === 'ar'
-              ? 'نعمل على دراسة كل ملف من زاوية نظامية وعملية، مع ترتيب المستندات والخيارات قبل اتخاذ أي إجراء.'
-              : 'Each matter is reviewed from both legal and practical angles, with documents and options organized before any step is taken.' }}
-          </p>
-        </div>
-      </div>
       <a class="services-more" routerLink="/services">
         {{ language() === 'ar' ? 'عرض جميع الخدمات' : 'View all services' }}
       </a>
@@ -181,7 +184,7 @@
       </div>
 
       <div class="section-image-row content-image-row">
-        <img src="/assets/legal-research-ai.png" alt="">
+        <img src="/assets/law-research-library.png" alt="">
         <div>
           <span>{{ language() === 'ar' ? 'معرفة قانونية' : 'Legal insight' }}</span>
           <strong>{{ language() === 'ar' ? 'محتوى يساعدك على فهم موقفك قبل القرار' : 'Content that helps you decide with clarity' }}</strong>
@@ -231,7 +234,7 @@
       </div>
 
       <div class="content-cta">
-        <strong>{{ language() === 'ar' ? 'هل تحتاج إلى استشارة قانونية؟' : 'Need legal advice?' }}</strong>
+        <strong>{{ language() === 'ar' ? 'هل تبحث عن استشارة؟' : 'Looking for legal advice?' }}</strong>
         <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
       </div>
     </section>
@@ -344,7 +347,7 @@
   </ng-container>
 
   <ng-container *ngIf="page() === 'blogs'">
-    <section class="page-hero">
+    <section class="page-hero blog-page-hero">
       <p class="eyebrow">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</p>
       <h1>{{ selectedBlogId() && selectedBlog() ? text(selectedBlog()!, 'title') : (language() === 'ar' ? 'مقالات قانونية' : 'Legal articles') }}</h1>
     </section>
@@ -396,7 +399,7 @@
   </ng-container>
 
   <ng-container *ngIf="page() === 'videos'">
-    <section class="page-hero">
+    <section class="page-hero videos-page-hero">
       <p class="eyebrow">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</p>
       <h1>{{ language() === 'ar' ? 'فيديوهات قانونية من يوتيوب' : 'Legal videos from YouTube' }}</h1>
     </section>
@@ -570,4 +573,10 @@
       </a>
     </div>
   </footer>
+
+  <a class="floating-whatsapp" [href]="whatsappLink()" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2.5a9.4 9.4 0 0 0-8 14.4L3 21.5l4.8-1.3A9.4 9.4 0 1 0 12 2.5Zm0 1.8a7.6 7.6 0 0 1 6.5 11.6l-.2.3.6 2.5-2.6-.7-.3.2A7.6 7.6 0 0 1 4.4 12 7.6 7.6 0 0 1 12 4.3Zm-3.1 3.6c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.9 4.5 3.9 2.2.9 2.7.7 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.1-.6.2l-.8 1c-.1.2-.3.2-.6.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.1-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.8-1.8c-.2-.4-.4-.4-.6-.4h-.5Z"/>
+    </svg>
+  </a>
 </main>
