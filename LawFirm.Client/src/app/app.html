@@ -45,12 +45,18 @@
       <img src="/assets/logo-clean.png" alt="خالد الفيفي للمحاماة والاستشارات القانونية">
     </a>
 
-    <nav class="main-nav">
-      <a routerLink="/">{{ language() === 'ar' ? 'الرئيسية' : 'Home' }}</a>
-      <a routerLink="/services">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
-      <a routerLink="/blogs">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</a>
-      <a routerLink="/videos">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Videos' }}</a>
-      <a href="/#contact">{{ language() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
+    <button class="menu-toggle" type="button" (click)="mobileMenuOpen.set(!mobileMenuOpen())" [attr.aria-expanded]="mobileMenuOpen()" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="main-nav" [class.open]="mobileMenuOpen()">
+      <a routerLink="/" (click)="closeMenu()">{{ language() === 'ar' ? 'الرئيسية' : 'Home' }}</a>
+      <a routerLink="/services" (click)="closeMenu()">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
+      <a routerLink="/blogs" (click)="closeMenu()">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</a>
+      <a routerLink="/videos" (click)="closeMenu()">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Videos' }}</a>
+      <a href="/#contact" (click)="closeMenu()">{{ language() === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
     </nav>
 
     <div class="header-tools">
@@ -146,57 +152,120 @@
           <em>{{ language() === 'ar' ? 'تفاصيل الخدمة' : 'Service details' }}</em>
         </a>
       </div>
+      <div class="section-image-row services-image-row">
+        <img src="/assets/office-services-ai.png" alt="">
+        <div>
+          <span>{{ language() === 'ar' ? 'بيئة عمل احترافية' : 'Professional setting' }}</span>
+          <strong>{{ language() === 'ar' ? 'خدمات قانونية بهدوء ودقة وتنظيم' : 'Legal services with clarity and precision' }}</strong>
+          <p>
+            {{ language() === 'ar'
+              ? 'نعمل على دراسة كل ملف من زاوية نظامية وعملية، مع ترتيب المستندات والخيارات قبل اتخاذ أي إجراء.'
+              : 'Each matter is reviewed from both legal and practical angles, with documents and options organized before any step is taken.' }}
+          </p>
+        </div>
+      </div>
       <a class="services-more" routerLink="/services">
         {{ language() === 'ar' ? 'عرض جميع الخدمات' : 'View all services' }}
       </a>
     </section>
 
-    <section id="services" class="section">
-      <div class="section-heading">
-        <p>{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</p>
-        <h2>{{ language() === 'ar' ? 'مجالات العمل القانونية' : 'Legal practice areas' }}</h2>
-      </div>
-      <div class="service-list">
-        <article class="service-card" *ngFor="let service of services; let index = index">
-          <span>{{ index + 1 | number: '2.0' }}</span>
-          <div>
-            <h3>{{ text(service, 'title') }}</h3>
-            <p>{{ text(service, 'description') }}</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
     <section class="split-section">
       <div class="section-heading">
         <p>{{ language() === 'ar' ? 'محتوى قانوني' : 'Legal content' }}</p>
-        <h2>{{ language() === 'ar' ? 'اطلع على المقالات والفيديوهات' : 'Browse articles and videos' }}</h2>
+        <h2>{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</h2>
+        <span class="section-intro">
+          {{ language() === 'ar'
+            ? 'نشارك محتوى قانوني مبسط يساعدك على فهم حقوقك وخياراتك قبل اتخاذ القرار.'
+            : 'Short legal content to help you understand your rights and options before making a decision.' }}
+        </span>
       </div>
-      <div class="preview-grid">
-        <a class="preview-card" routerLink="/blogs">
-          <span>{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</span>
-          <strong>{{ language() === 'ar' ? 'مقالات قانونية مختصرة' : 'Focused legal articles' }}</strong>
-          <em>{{ language() === 'ar' ? 'اقرأ المزيد' : 'Read more' }}</em>
+
+      <div class="section-image-row content-image-row">
+        <img src="/assets/legal-research-ai.png" alt="">
+        <div>
+          <span>{{ language() === 'ar' ? 'معرفة قانونية' : 'Legal insight' }}</span>
+          <strong>{{ language() === 'ar' ? 'محتوى يساعدك على فهم موقفك قبل القرار' : 'Content that helps you decide with clarity' }}</strong>
+          <p>
+            {{ language() === 'ar'
+              ? 'نرتب الموضوعات القانونية بأسلوب مختصر وواضح حتى تكون الفكرة أقرب وأسهل قبل طلب الاستشارة.'
+              : 'Legal topics are presented clearly and briefly so the idea is easier to understand before requesting advice.' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="home-video-grid">
+        <a class="home-video-card" *ngFor="let video of videos.slice(0, 3)" [href]="video.videoUrl" target="_blank" rel="noreferrer">
+          <span class="video-thumb" [style.background-image]="'url(' + videoThumbnailUrl(video.videoUrl) + ')'">
+            <i aria-hidden="true"></i>
+          </span>
+          <strong>{{ text(video, 'title') }}</strong>
+          <em>{{ language() === 'ar' ? 'مشاهدة الفيديو' : 'Watch video' }}</em>
         </a>
-        <a class="preview-card dark" routerLink="/videos">
-          <span>{{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}</span>
-          <strong>{{ language() === 'ar' ? 'فيديوهات من يوتيوب' : 'Videos from YouTube' }}</strong>
-          <em>{{ language() === 'ar' ? 'مشاهدة' : 'Watch' }}</em>
+      </div>
+
+      <a class="primary-action content-more" routerLink="/videos">
+        {{ language() === 'ar' ? 'المكتبة المرئية' : 'Video library' }}
+      </a>
+
+      <div class="blog-preview-block">
+        <div class="section-heading compact-heading">
+          <p>{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</p>
+          <h2>{{ language() === 'ar' ? 'مقالات قانونية مختصرة' : 'Focused legal articles' }}</h2>
+        </div>
+        <div class="home-blog-grid">
+          <a class="home-blog-card" [routerLink]="['/blogs', post.id]" *ngFor="let post of blogs.slice(0, 3)">
+            <span>{{ language() === 'ar' ? 'مقال' : 'Article' }}</span>
+            <strong>{{ text(post, 'title') }}</strong>
+            <p>{{ text(post, 'excerpt') || text(post, 'content') }}</p>
+            <small>{{ postDate(post) }} · {{ readingTime(post) }}</small>
+          </a>
+          <a class="preview-card" routerLink="/blogs" *ngIf="!blogs.length">
+            <span>{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</span>
+            <strong>{{ language() === 'ar' ? 'اطلع على أحدث المقالات القانونية' : 'Browse the latest legal articles' }}</strong>
+            <em>{{ language() === 'ar' ? 'اقرأ المزيد' : 'Read more' }}</em>
+          </a>
+        </div>
+        <a class="primary-action content-more blog-more" routerLink="/blogs">
+          {{ language() === 'ar' ? 'المدونة' : 'Blog' }}
         </a>
+      </div>
+
+      <div class="content-cta">
+        <strong>{{ language() === 'ar' ? 'هل تحتاج إلى استشارة قانونية؟' : 'Need legal advice?' }}</strong>
+        <a class="primary-action" href="/#contact">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</a>
       </div>
     </section>
 
     <section id="contact" class="section contact-section">
       <div class="section-heading">
         <p>{{ language() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</p>
-        <h2>{{ language() === 'ar' ? 'طلب استشارة' : 'Request a consultation' }}</h2>
+        <h2>{{ language() === 'ar' ? 'طلب الخدمة' : 'Request a service' }}</h2>
+        <span class="section-intro">
+          {{ language() === 'ar'
+            ? 'اختر نوع الخدمة وأرسل بياناتك، وسيتواصل معك المكتب لمتابعة الطلب بسرية ومهنية.'
+            : 'Choose the service type and send your details. The office will follow up confidentially and professionally.' }}
+        </span>
       </div>
-      <form class="form" (ngSubmit)="submitConsultation()">
-        <input name="fullName" [(ngModel)]="consultation.fullName" [placeholder]="language() === 'ar' ? 'الاسم الكامل' : 'Full name'" required>
-        <input name="phone" [(ngModel)]="consultation.phone" [placeholder]="language() === 'ar' ? 'رقم الجوال' : 'Phone'" required>
-        <input name="email" [(ngModel)]="consultation.email" [placeholder]="language() === 'ar' ? 'البريد الإلكتروني' : 'Email'">
-        <textarea name="message" [(ngModel)]="consultation.message" [placeholder]="language() === 'ar' ? 'اكتب طلبك' : 'Write your request'" required></textarea>
-        <button class="primary-action" type="submit">{{ language() === 'ar' ? 'إرسال الطلب' : 'Send request' }}</button>
+      <form class="form consultation-form" #consultationForm="ngForm" (ngSubmit)="submitConsultation(consultationForm)" novalidate>
+        <label class="service-type-field">
+          <span>{{ language() === 'ar' ? 'نوع الخدمة' : 'Service type' }}</span>
+          <select name="serviceType" [(ngModel)]="consultation.serviceType" required>
+            <option value="تحديد موعد">{{ language() === 'ar' ? 'تحديد موعد' : 'Schedule appointment' }}</option>
+            <option value="طلب استشارة">{{ language() === 'ar' ? 'طلب استشارة' : 'Request consultation' }}</option>
+          </select>
+        </label>
+        <input name="fullName" #fullName="ngModel" [(ngModel)]="consultation.fullName" [placeholder]="language() === 'ar' ? 'الاسم الكامل' : 'Full name'" required minlength="3">
+        <small class="field-error" *ngIf="consultationSubmitted && fullName.invalid">{{ language() === 'ar' ? 'الاسم مطلوب.' : 'Full name is required.' }}</small>
+        <input name="phone" #phone="ngModel" [(ngModel)]="consultation.phone" [placeholder]="language() === 'ar' ? 'رقم الجوال' : 'Phone'" required minlength="8">
+        <small class="field-error" *ngIf="consultationSubmitted && phone.invalid">{{ language() === 'ar' ? 'رقم الجوال مطلوب.' : 'Phone number is required.' }}</small>
+        <input name="email" [(ngModel)]="consultation.email" [placeholder]="language() === 'ar' ? 'البريد الإلكتروني' : 'Email'" type="email">
+        <textarea name="message" #message="ngModel" [(ngModel)]="consultation.message" [placeholder]="language() === 'ar' ? 'اكتب طلبك' : 'Write your request'" required minlength="10"></textarea>
+        <small class="field-error" *ngIf="consultationSubmitted && message.invalid">{{ language() === 'ar' ? 'اكتب تفاصيل الطلب بشكل مختصر.' : 'Write a short request message.' }}</small>
+        <p class="form-error" *ngIf="consultationError">{{ consultationError }}</p>
+        <div class="contact-actions">
+          <button class="primary-action" type="submit">{{ language() === 'ar' ? 'إرسال الطلب' : 'Send request' }}</button>
+          <a class="whatsapp-action" [href]="whatsappLink()" target="_blank" rel="noreferrer">{{ language() === 'ar' ? 'تواصل واتساب' : 'WhatsApp' }}</a>
+        </div>
       </form>
     </section>
   </ng-container>
@@ -236,14 +305,34 @@
     </section>
 
     <section class="section services-page">
-      <article class="service-detail-card" *ngFor="let service of legalServices; let index = index">
-        <div class="service-detail-icon">
+      <div class="services-index">
+        <button
+          type="button"
+          *ngFor="let service of legalServices; let index = index"
+          [class.active]="openServiceIndex() === index"
+          (click)="toggleService(index)">
           <span>{{ service.icon }}</span>
-          <small>{{ index + 1 | number: '2.0' }}</small>
-        </div>
-        <div class="service-detail-body">
-          <h2>{{ language() === 'ar' ? service.titleAr : service.titleEn }}</h2>
-          <p>{{ language() === 'ar' ? service.summaryAr : service.summaryEn }}</p>
+          {{ language() === 'ar' ? service.titleAr : service.titleEn }}
+        </button>
+      </div>
+
+      <article
+        class="service-detail-card"
+        *ngFor="let service of legalServices; let index = index"
+        [class.open]="openServiceIndex() === index">
+        <button type="button" class="service-detail-header" (click)="toggleService(index)">
+          <div class="service-detail-icon">
+            <span>{{ service.icon }}</span>
+            <small>{{ index + 1 | number: '2.0' }}</small>
+          </div>
+          <div>
+            <h2>{{ language() === 'ar' ? service.titleAr : service.titleEn }}</h2>
+            <p>{{ language() === 'ar' ? service.summaryAr : service.summaryEn }}</p>
+          </div>
+          <i aria-hidden="true"></i>
+        </button>
+
+        <div class="service-detail-body" *ngIf="openServiceIndex() === index">
           <ul>
             <li *ngFor="let point of (language() === 'ar' ? service.pointsAr : service.pointsEn)">
               {{ point }}
@@ -257,14 +346,49 @@
   <ng-container *ngIf="page() === 'blogs'">
     <section class="page-hero">
       <p class="eyebrow">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</p>
-      <h1>{{ language() === 'ar' ? 'مقالات قانونية' : 'Legal articles' }}</h1>
+      <h1>{{ selectedBlogId() && selectedBlog() ? text(selectedBlog()!, 'title') : (language() === 'ar' ? 'مقالات قانونية' : 'Legal articles') }}</h1>
     </section>
-    <section class="section">
+
+    <section class="section blog-detail-section" *ngIf="selectedBlogId() && selectedBlog() as post">
+      <article class="blog-detail-card">
+        <a class="text-action back-link" routerLink="/blogs">{{ language() === 'ar' ? 'العودة إلى المدونة' : 'Back to blog' }}</a>
+        <span>{{ language() === 'ar' ? 'مقال قانوني' : 'Legal article' }}</span>
+        <h2>{{ text(post, 'title') }}</h2>
+        <div class="blog-meta">
+          <small>{{ postDate(post) }}</small>
+          <small>{{ readingTime(post) }}</small>
+        </div>
+        <p class="blog-detail-excerpt">{{ text(post, 'excerpt') }}</p>
+        <div class="blog-detail-content">
+          <p>{{ text(post, 'content') }}</p>
+        </div>
+        <div class="related-posts" *ngIf="relatedBlogs().length">
+          <h3>{{ language() === 'ar' ? 'مقالات ذات صلة' : 'Related posts' }}</h3>
+          <a *ngFor="let related of relatedBlogs()" [routerLink]="['/blogs', related.id]">
+            {{ text(related, 'title') }}
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section blog-detail-section" *ngIf="selectedBlogId() && !selectedBlog()">
+      <article class="blog-detail-card">
+        <a class="text-action back-link" routerLink="/blogs">{{ language() === 'ar' ? 'العودة إلى المدونة' : 'Back to blog' }}</a>
+        <h2>{{ language() === 'ar' ? 'لم يتم العثور على المقال' : 'Article not found' }}</h2>
+        <p>{{ language() === 'ar' ? 'قد يكون المقال غير منشور أو تم حذفه من لوحة التحكم.' : 'The article may be unpublished or deleted from the dashboard.' }}</p>
+      </article>
+    </section>
+
+    <section class="section" *ngIf="!selectedBlogId()">
       <div class="article-grid">
         <article class="article-card" *ngFor="let post of blogs">
-          <span>{{ language() === 'ar' ? 'مقال' : 'Article' }}</span>
-          <h2>{{ text(post, 'title') }}</h2>
-          <p>{{ text(post, 'excerpt') || text(post, 'content') }}</p>
+          <a class="article-card-link" [routerLink]="['/blogs', post.id]">
+            <span>{{ language() === 'ar' ? 'مقال' : 'Article' }}</span>
+            <h2>{{ text(post, 'title') }}</h2>
+            <small>{{ postDate(post) }} · {{ readingTime(post) }}</small>
+            <p>{{ text(post, 'excerpt') || text(post, 'content') }}</p>
+            <em>{{ language() === 'ar' ? 'قراءة المقال' : 'Read article' }}</em>
+          </a>
           <button type="button" *ngIf="adminToken" (click)="deleteBlog(post.id)">{{ language() === 'ar' ? 'حذف' : 'Delete' }}</button>
         </article>
       </div>
@@ -321,6 +445,8 @@
             <input name="blogTitleEn" [(ngModel)]="newBlog.titleEn" placeholder="English title">
             <textarea name="blogExcerptAr" [(ngModel)]="newBlog.excerptAr" placeholder="نبذة بالعربية"></textarea>
             <textarea name="blogExcerptEn" [(ngModel)]="newBlog.excerptEn" placeholder="English excerpt"></textarea>
+            <textarea name="blogContentAr" [(ngModel)]="newBlog.contentAr" placeholder="المقال كامل بالعربية"></textarea>
+            <textarea name="blogContentEn" [(ngModel)]="newBlog.contentEn" placeholder="Full English article"></textarea>
             <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ المقال' : 'Save blog' }}</button>
           </form>
 
@@ -333,14 +459,115 @@
           </form>
         </div>
 
+        <div class="admin-manage-grid">
+          <section class="admin-list-card">
+            <h3>{{ language() === 'ar' ? 'إدارة المقالات' : 'Manage blogs' }}</h3>
+            <article *ngFor="let post of blogs">
+              <strong>{{ text(post, 'title') }}</strong>
+              <div>
+                <button type="button" class="secondary-action" (click)="startEditBlog(post)">{{ language() === 'ar' ? 'تعديل' : 'Edit' }}</button>
+                <button type="button" class="secondary-action danger" (click)="deleteBlog(post.id)">{{ language() === 'ar' ? 'حذف' : 'Delete' }}</button>
+              </div>
+            </article>
+          </section>
+
+          <section class="admin-list-card">
+            <h3>{{ language() === 'ar' ? 'إدارة الفيديوهات' : 'Manage videos' }}</h3>
+            <article *ngFor="let video of videos">
+              <strong>{{ text(video, 'title') }}</strong>
+              <div>
+                <button type="button" class="secondary-action" (click)="startEditVideo(video)">{{ language() === 'ar' ? 'تعديل' : 'Edit' }}</button>
+                <button type="button" class="secondary-action danger" (click)="deleteVideo(video.id)">{{ language() === 'ar' ? 'حذف' : 'Delete' }}</button>
+              </div>
+            </article>
+          </section>
+        </div>
+
+        <form class="form edit-panel" *ngIf="editingBlog" (ngSubmit)="updateBlog()">
+          <h3>{{ language() === 'ar' ? 'تعديل المقال' : 'Edit blog' }}</h3>
+          <input name="editBlogTitleAr" [(ngModel)]="editingBlog.titleAr" placeholder="العنوان بالعربية">
+          <input name="editBlogTitleEn" [(ngModel)]="editingBlog.titleEn" placeholder="English title">
+          <textarea name="editBlogExcerptAr" [(ngModel)]="editingBlog.excerptAr" placeholder="نبذة بالعربية"></textarea>
+          <textarea name="editBlogExcerptEn" [(ngModel)]="editingBlog.excerptEn" placeholder="English excerpt"></textarea>
+          <textarea name="editBlogContentAr" [(ngModel)]="editingBlog.contentAr" placeholder="المقال كامل بالعربية"></textarea>
+          <textarea name="editBlogContentEn" [(ngModel)]="editingBlog.contentEn" placeholder="Full English article"></textarea>
+          <div class="admin-actions">
+            <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ التعديل' : 'Save changes' }}</button>
+            <button class="secondary-action" type="button" (click)="cancelEditBlog()">{{ language() === 'ar' ? 'إلغاء' : 'Cancel' }}</button>
+          </div>
+        </form>
+
+        <form class="form edit-panel" *ngIf="editingVideo" (ngSubmit)="updateVideo()">
+          <h3>{{ language() === 'ar' ? 'تعديل الفيديو' : 'Edit video' }}</h3>
+          <input name="editVideoTitleAr" [(ngModel)]="editingVideo.titleAr" placeholder="عنوان الفيديو بالعربية">
+          <input name="editVideoTitleEn" [(ngModel)]="editingVideo.titleEn" placeholder="English video title">
+          <textarea name="editVideoDescriptionAr" [(ngModel)]="editingVideo.descriptionAr" placeholder="وصف الفيديو بالعربية"></textarea>
+          <textarea name="editVideoDescriptionEn" [(ngModel)]="editingVideo.descriptionEn" placeholder="English video description"></textarea>
+          <input name="editVideoUrl" [(ngModel)]="editingVideo.videoUrl" placeholder="YouTube video URL">
+          <div class="admin-actions">
+            <button class="primary-action" type="submit">{{ language() === 'ar' ? 'حفظ التعديل' : 'Save changes' }}</button>
+            <button class="secondary-action" type="button" (click)="cancelEditVideo()">{{ language() === 'ar' ? 'إلغاء' : 'Cancel' }}</button>
+          </div>
+        </form>
+
         <div class="table-wrap">
-          <h3>{{ language() === 'ar' ? 'طلبات الاستشارة' : 'Consultation requests' }}</h3>
+          <div class="table-heading">
+            <h3>{{ language() === 'ar' ? 'طلبات الاستشارة' : 'Consultation requests' }}</h3>
+            <select [(ngModel)]="consultationFilter" name="consultationFilter">
+              <option value="all">{{ language() === 'ar' ? 'الكل' : 'All' }}</option>
+              <option value="pending">{{ language() === 'ar' ? 'جديدة' : 'Pending' }}</option>
+              <option value="reviewed">{{ language() === 'ar' ? 'تمت المراجعة' : 'Reviewed' }}</option>
+              <option value="appointment">{{ language() === 'ar' ? 'تحديد موعد' : 'Appointment' }}</option>
+              <option value="consultation">{{ language() === 'ar' ? 'طلب استشارة' : 'Consultation' }}</option>
+            </select>
+          </div>
           <table>
-            <tr><th>Name</th><th>Phone</th><th>Message</th></tr>
-            <tr *ngFor="let item of consultations"><td>{{ item.fullName }}</td><td>{{ item.phone }}</td><td>{{ item.message }}</td></tr>
+            <tr><th>Name</th><th>Phone</th><th>Service</th><th>Status</th><th>Message</th><th>Action</th></tr>
+            <tr *ngFor="let item of filteredConsultations()">
+              <td>{{ item.fullName }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.serviceType }}</td>
+              <td><span class="status-pill" [class.reviewed]="item.isReviewed">{{ item.isReviewed ? (language() === 'ar' ? 'تمت المراجعة' : 'Reviewed') : (language() === 'ar' ? 'جديد' : 'New') }}</span></td>
+              <td>{{ item.message }}</td>
+              <td><button type="button" class="secondary-action" *ngIf="!item.isReviewed" (click)="markConsultationReviewed(item.id)">{{ language() === 'ar' ? 'تمت المراجعة' : 'Mark reviewed' }}</button></td>
+            </tr>
           </table>
         </div>
       </div>
     </section>
   </ng-container>
+
+  <footer class="site-footer-card">
+    <div class="footer-brand-block">
+      <img src="/assets/logo-clean.png" alt="خالد الفيفي للمحاماة والاستشارات القانونية">
+      <strong>{{ language() === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations' }}</strong>
+    </div>
+
+    <div class="footer-nav-block">
+      <h3>{{ language() === 'ar' ? 'روابط الموقع' : 'Site links' }}</h3>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a routerLink="/">{{ language() === 'ar' ? 'الرئيسية' : 'Main' }}</a>
+        <a routerLink="/services">{{ language() === 'ar' ? 'الخدمات' : 'Services' }}</a>
+        <a routerLink="/videos">{{ language() === 'ar' ? 'المكتبة المرئية' : 'Videos library' }}</a>
+        <a routerLink="/blogs">{{ language() === 'ar' ? 'المدونة' : 'Blog' }}</a>
+        <a href="/#contact">{{ language() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</a>
+      </nav>
+    </div>
+
+    <div class="footer-contact-block">
+      <h3>{{ language() === 'ar' ? 'تواصل معنا' : 'Contact us' }}</h3>
+      <a class="footer-contact-card" href="https://www.google.com/maps/place/%D9%85%D9%83%D8%AA%D8%A8+%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D9%85%D9%8A+%D8%AE%D8%A7%D9%84%D8%AF+%D8%AC%D8%A7%D8%A8%D8%B1+%D8%A7%D9%84%D9%81%D9%8A%D9%81%D9%8A%E2%80%AD/@24.5683352,46.662958,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhC3_QSVck2McvtE5gNHbPze!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgrass-cs%2FANxoTn2n8aO0hlFYUk3Yne7fsXZUY_swcNpV3rPj7f0R3j7DvtVNxKyyQSonrHNRpZhKEtw53EJJ7ejfGGxrrJwwSDuOtqYi09xY_yKVuTiXH-Z6g6CfqwnmwwWcdGRNhjQozxXJaxbfa5ztDqg%3Dk-no!7i1005!8i1079!4m6!3m5!1s0x3e2f111aea1086af:0xa4a7d18138e2810!8m2!3d24.5683352!4d46.662958!16s%2Fg%2F11x34qnq9m?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDUwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-4.1 0-7.4 3.2-7.4 7.2 0 5.2 6.2 11.3 6.5 11.5.5.5 1.3.5 1.8 0 .3-.2 6.5-6.3 6.5-11.5 0-4-3.3-7.2-7.4-7.2Zm0 10.1a2.8 2.8 0 1 1 0-5.6 2.8 2.8 0 0 1 0 5.6Z"/></svg>
+        <span><small>{{ language() === 'ar' ? 'الموقع' : 'Location' }}</small>{{ language() === 'ar' ? 'طريق الدائري الغربي، الحزم، الرياض' : 'Western Ring Road, Al Hazm, Riyadh' }}</span>
+      </a>
+      <a class="footer-contact-card" href="mailto:info@alfaifi-law.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5h17c.8 0 1.5.7 1.5 1.5v11c0 .8-.7 1.5-1.5 1.5h-17c-.8 0-1.5-.7-1.5-1.5v-11C2 5.7 2.7 5 3.5 5Zm.8 3.1v8.4h15.4V8.1l-6.8 5.1a1.5 1.5 0 0 1-1.8 0L4.3 8.1Zm1.4-1.3 6.3 4.7 6.3-4.7H5.7Z"/></svg>
+        <span><small>{{ language() === 'ar' ? 'راسلنا' : 'Email us' }}</small>info@alfaifi-law.com</span>
+      </a>
+      <a class="footer-contact-card" href="tel:+966502905007" dir="ltr">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.2 9.5 6c.7.7.8 1.8.3 2.6l-1 1.5a13 13 0 0 0 5.1 5.1l1.5-1c.8-.5 1.9-.4 2.6.3l2.8 2.9c.6.6.7 1.6.2 2.3-.8 1.2-2.1 2-3.6 2-7.8 0-15.1-7.3-15.1-15.1 0-1.5.8-2.8 2-3.6.7-.5 1.7-.4 2.3.2Z"/></svg>
+        <span><small>{{ language() === 'ar' ? 'اتصل بنا' : 'Call us' }}</small>+966502905007</span>
+      </a>
+    </div>
+  </footer>
 </main>

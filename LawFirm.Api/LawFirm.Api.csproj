@@ -18,4 +18,14 @@
     <ProjectReference Include="..\LawFirm.Infrastructure\LawFirm.Infrastructure.csproj" />
   </ItemGroup>
 
+  <Target Name="IncludeAngularClient" BeforeTargets="ComputeFilesToPublish">
+    <ItemGroup>
+      <AngularClientFiles Include="..\LawFirm.Client\dist\LawFirm.Client\browser\**\*" />
+      <ResolvedFileToPublish Include="@(AngularClientFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
 </Project>

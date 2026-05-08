@@ -61,6 +61,24 @@ public class AdminController(LawFirmDbContext dbContext) : ControllerBase
         return Ok(post);
     }
 
+    [HttpPut("blogs/{id:int}")]
+    public async Task<IActionResult> UpdateBlog(int id, BlogPost post)
+    {
+        var existing = await dbContext.BlogPosts.FindAsync(id);
+        if (existing is null) return NotFound();
+
+        existing.TitleAr = post.TitleAr;
+        existing.TitleEn = post.TitleEn;
+        existing.ExcerptAr = post.ExcerptAr;
+        existing.ExcerptEn = post.ExcerptEn;
+        existing.ContentAr = post.ContentAr;
+        existing.ContentEn = post.ContentEn;
+        existing.IsPublished = post.IsPublished;
+
+        await dbContext.SaveChangesAsync();
+        return Ok(existing);
+    }
+
     [HttpDelete("blogs/{id:int}")]
     public async Task<IActionResult> DeleteBlog(int id)
     {
@@ -82,6 +100,23 @@ public class AdminController(LawFirmDbContext dbContext) : ControllerBase
         return Ok(video);
     }
 
+    [HttpPut("videos/{id:int}")]
+    public async Task<IActionResult> UpdateVideo(int id, VideoItem video)
+    {
+        var existing = await dbContext.Videos.FindAsync(id);
+        if (existing is null) return NotFound();
+
+        existing.TitleAr = video.TitleAr;
+        existing.TitleEn = video.TitleEn;
+        existing.DescriptionAr = video.DescriptionAr;
+        existing.DescriptionEn = video.DescriptionEn;
+        existing.VideoUrl = video.VideoUrl;
+        existing.IsPublished = video.IsPublished;
+
+        await dbContext.SaveChangesAsync();
+        return Ok(existing);
+    }
+
     [HttpDelete("videos/{id:int}")]
     public async Task<IActionResult> DeleteVideo(int id)
     {
@@ -91,5 +126,16 @@ public class AdminController(LawFirmDbContext dbContext) : ControllerBase
         dbContext.Videos.Remove(video);
         await dbContext.SaveChangesAsync();
         return NoContent();
+    }
+
+    [HttpPatch("consultations/{id:int}/reviewed")]
+    public async Task<IActionResult> MarkConsultationReviewed(int id)
+    {
+        var request = await dbContext.ConsultationRequests.FindAsync(id);
+        if (request is null) return NotFound();
+
+        request.IsReviewed = true;
+        await dbContext.SaveChangesAsync();
+        return Ok(request);
     }
 }

@@ -16,6 +16,7 @@ public class ConsultationsController(LawFirmDbContext dbContext) : ControllerBas
             FullName = request.FullName.Trim(),
             Phone = request.Phone.Trim(),
             Email = request.Email.Trim(),
+            ServiceType = request.ServiceType.Trim(),
             Message = request.Message.Trim()
         };
 
@@ -26,4 +27,4 @@ public class ConsultationsController(LawFirmDbContext dbContext) : ControllerBas
     }
 }
 
-public record CreateConsultationRequest(string FullName, string Phone, string Email, string Message);
+public record CreateConsultationRequest(string FullName, string Phone, string Email, string ServiceType, string Message);

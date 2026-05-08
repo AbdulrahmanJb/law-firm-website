@@ -5,3 +5,4 @@ dist/
 *.log
 .vs/
 .idea/
+LawFirm.Api/appsettings.Production.json

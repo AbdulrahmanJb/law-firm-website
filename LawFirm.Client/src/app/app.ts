@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { environment } from '../environments/environment';
 
 type Language = 'ar' | 'en';
 type Page = 'home' | 'services' | 'blogs' | 'videos' | 'admin';
@@ -20,6 +22,8 @@ interface LocalizedItem {
   contentAr?: string;
   contentEn?: string;
   videoUrl?: string;
+  publishedAtUtc?: string;
+  isPublished?: boolean;
 }
 
 interface LegalService {
@@ -39,10 +43,13 @@ interface LegalService {
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  private readonly apiUrl = 'http://localhost:5081/api';
+  private readonly apiUrl = environment.apiUrl;
 
   language = signal<Language>('ar');
   page = signal<Page>('home');
+  openServiceIndex = signal(0);
+  selectedBlogId = signal<number | null>(null);
+  mobileMenuOpen = signal(false);
   services: LocalizedItem[] = [];
   legalServices: LegalService[] = [
     {
@@ -183,8 +190,13 @@ export class App implements OnInit {
   consultations: any[] = [];
   dailyVisits: any[] = [];
   adminToken = localStorage.getItem('adminToken') ?? '';
+  consultationFilter = 'all';
+  editingBlog: LocalizedItem | null = null;
+  editingVideo: LocalizedItem | null = null;
+  consultationSubmitted = false;
+  consultationError = '';
 
-  consultation = { fullName: '', phone: '', email: '', message: '' };
+  consultation = { fullName: '', phone: '', email: '', serviceType: 'طلب استشارة', message: '' };
   login = { email: 'admin@lawfirm.local', password: 'ChangeMe123!' };
   newBlog = { titleAr: '', titleEn: '', excerptAr: '', excerptEn: '', contentAr: '', contentEn: '', isPublished: true };
   newVideo = { titleAr: '', titleEn: '', videoUrl: '' };
@@ -192,7 +204,9 @@ export class App implements OnInit {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer,
+    private readonly title: Title,
+    private readonly meta: Meta
   ) {}
 
   ngOnInit(): void {
@@ -216,6 +230,15 @@ export class App implements OnInit {
     this.language.set(language);
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
+    this.updateSeoMetadata();
+  }
+
+  closeMenu(): void {
+    this.mobileMenuOpen.set(false);
+  }
+
+  toggleService(index: number): void {
+    this.openServiceIndex.set(this.openServiceIndex() === index ? -1 : index);
   }
 
   text(item: LocalizedItem, field: 'title' | 'description' | 'excerpt' | 'content'): string {
@@ -223,17 +246,60 @@ export class App implements OnInit {
     return (item as any)[`${field}${suffix}`] ?? '';
   }
 
+  selectedBlog(): LocalizedItem | undefined {
+    const id = this.selectedBlogId();
+    return id ? this.blogs.find(post => post.id === id) : undefined;
+  }
+
+  relatedBlogs(): LocalizedItem[] {
+    const selectedId = this.selectedBlogId();
+    return this.blogs.filter(post => post.id !== selectedId).slice(0, 3);
+  }
+
+  readingTime(post: LocalizedItem): string {
+    const content = `${this.text(post, 'excerpt')} ${this.text(post, 'content')}`.trim();
+    const words = content ? content.split(/\s+/).length : 0;
+    const minutes = Math.max(1, Math.ceil(words / 180));
+    return this.language() === 'ar' ? `${minutes} دقائق قراءة` : `${minutes} min read`;
+  }
+
+  postDate(post: LocalizedItem): string {
+    if (!post.publishedAtUtc) return '';
+    return new Intl.DateTimeFormat(this.language() === 'ar' ? 'ar-SA' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(new Date(post.publishedAtUtc));
+  }
+
   videoEmbedUrl(url?: string): SafeResourceUrl {
     if (!url) return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
 
-    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/)([^&?/]+)/);
-    const embedUrl = match ? `https://www.youtube.com/embed/${match[1]}` : url;
+    const videoId = this.youtubeVideoId(url);
+    const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : url;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 
-  submitConsultation(): void {
+  videoThumbnailUrl(url?: string): string {
+    const videoId = this.youtubeVideoId(url);
+    return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '/assets/office-hero.jpg';
+  }
+
+  submitConsultation(form: NgForm): void {
+    this.consultationSubmitted = true;
+    this.consultationError = '';
+
+    if (form.invalid) {
+      this.consultationError = this.language() === 'ar'
+        ? 'يرجى تعبئة الحقول المطلوبة قبل إرسال الطلب.'
+        : 'Please complete the required fields before sending.';
+      return;
+    }
+
     this.http.post(`${this.apiUrl}/consultations`, this.consultation).subscribe(() => {
-      this.consultation = { fullName: '', phone: '', email: '', message: '' };
+      this.consultation = { fullName: '', phone: '', email: '', serviceType: 'طلب استشارة', message: '' };
+      this.consultationSubmitted = false;
+      form.resetForm(this.consultation);
       alert(this.language() === 'ar' ? 'تم إرسال طلب الاستشارة' : 'Consultation request sent');
     });
   }
@@ -258,6 +324,23 @@ export class App implements OnInit {
       this.loadPublicContent();
       this.loadAdmin();
     });
+  }
+
+  startEditBlog(post: LocalizedItem): void {
+    this.editingBlog = { ...post };
+  }
+
+  updateBlog(): void {
+    if (!this.editingBlog) return;
+    this.http.put(`${this.apiUrl}/admin/blogs/${this.editingBlog.id}`, this.editingBlog, this.adminHeaders()).subscribe(() => {
+      this.editingBlog = null;
+      this.loadPublicContent();
+      this.loadAdmin();
+    });
+  }
+
+  cancelEditBlog(): void {
+    this.editingBlog = null;
   }
 
   deleteBlog(id: number): void {
@@ -287,6 +370,23 @@ export class App implements OnInit {
     });
   }
 
+  startEditVideo(video: LocalizedItem): void {
+    this.editingVideo = { ...video };
+  }
+
+  updateVideo(): void {
+    if (!this.editingVideo) return;
+    this.http.put(`${this.apiUrl}/admin/videos/${this.editingVideo.id}`, this.editingVideo, this.adminHeaders()).subscribe(() => {
+      this.editingVideo = null;
+      this.loadPublicContent();
+      this.loadAdmin();
+    });
+  }
+
+  cancelEditVideo(): void {
+    this.editingVideo = null;
+  }
+
   deleteVideo(id: number): void {
     this.http.delete(`${this.apiUrl}/admin/videos/${id}`, this.adminHeaders()).subscribe(() => {
       this.loadPublicContent();
@@ -294,17 +394,53 @@ export class App implements OnInit {
     });
   }
 
+  filteredConsultations(): any[] {
+    return this.consultations.filter(item => {
+      if (this.consultationFilter === 'pending') return !item.isReviewed;
+      if (this.consultationFilter === 'reviewed') return item.isReviewed;
+      if (this.consultationFilter === 'appointment') return item.serviceType === 'تحديد موعد';
+      if (this.consultationFilter === 'consultation') return item.serviceType === 'طلب استشارة';
+      return true;
+    });
+  }
+
+  markConsultationReviewed(id: number): void {
+    this.http.patch(`${this.apiUrl}/admin/consultations/${id}/reviewed`, {}, this.adminHeaders()).subscribe(() => {
+      this.loadAdmin();
+    });
+  }
+
+  whatsappLink(): string {
+    const message = this.language() === 'ar'
+      ? 'السلام عليكم، أرغب في طلب خدمة قانونية من مكتب خالد الفيفي.'
+      : 'Hello, I would like to request a legal service from Khaled Al-Faifi Law Office.';
+    return `https://wa.me/966502905007?text=${encodeURIComponent(message)}`;
+  }
+
   private syncPage(url: string): void {
     if (url.startsWith('/services')) this.page.set('services');
-    else if (url.startsWith('/blogs')) this.page.set('blogs');
+    else if (url.startsWith('/blogs')) {
+      this.page.set('blogs');
+      const blogId = Number(url.match(/^\/blogs\/(\d+)/)?.[1] ?? 0);
+      this.selectedBlogId.set(blogId > 0 ? blogId : null);
+    }
     else if (url.startsWith('/videos')) this.page.set('videos');
     else if (url.startsWith('/admin')) this.page.set('admin');
-    else this.page.set('home');
+    else {
+      this.page.set('home');
+      this.selectedBlogId.set(null);
+    }
+
+    this.closeMenu();
+    this.updateSeoMetadata();
   }
 
   private loadPublicContent(): void {
     this.http.get<LocalizedItem[]>(`${this.apiUrl}/public/services`).subscribe(data => this.services = data);
-    this.http.get<LocalizedItem[]>(`${this.apiUrl}/public/blogs`).subscribe(data => this.blogs = data);
+    this.http.get<LocalizedItem[]>(`${this.apiUrl}/public/blogs`).subscribe(data => {
+      this.blogs = data;
+      this.updateSeoMetadata();
+    });
     this.http.get<LocalizedItem[]>(`${this.apiUrl}/public/videos`).subscribe({
       next: data => this.videos = data.length ? data : [...this.defaultVideos],
       error: () => this.videos = [...this.defaultVideos]
@@ -321,7 +457,41 @@ export class App implements OnInit {
     this.http.post(`${this.apiUrl}/visits`, { pagePath: location.pathname }).subscribe();
   }
 
+  private youtubeVideoId(url?: string): string {
+    if (!url) return '';
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/embed\/)([^&?/]+)/);
+    return match?.[1] ?? '';
+  }
+
   private adminHeaders(): { headers: HttpHeaders } {
-    return { headers: new HttpHeaders({ 'X-Admin-Token': this.adminToken }) };
+    return { headers: new HttpHeaders({ Authorization: `Bearer ${this.adminToken}` }) };
+  }
+
+  private updateSeoMetadata(): void {
+    const lang = this.language();
+    const selectedPost = this.selectedBlog();
+    const titleMap: Record<Page, string> = {
+      home: lang === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations',
+      services: lang === 'ar' ? 'الخدمات القانونية | خالد الفيفي' : 'Legal Services | Khaled Al-Faifi',
+      blogs: selectedPost
+        ? `${this.text(selectedPost, 'title')} | ${lang === 'ar' ? 'خالد الفيفي' : 'Khaled Al-Faifi'}`
+        : (lang === 'ar' ? 'المدونة القانونية | خالد الفيفي' : 'Legal Blog | Khaled Al-Faifi'),
+      videos: lang === 'ar' ? 'المكتبة المرئية | خالد الفيفي' : 'Video Library | Khaled Al-Faifi',
+      admin: lang === 'ar' ? 'لوحة التحكم | خالد الفيفي' : 'Admin Dashboard | Khaled Al-Faifi'
+    };
+
+    const description = selectedPost
+      ? this.text(selectedPost, 'excerpt')
+      : (lang === 'ar'
+        ? 'مكتب خالد الفيفي للمحاماة والاستشارات القانونية في الرياض، خدمات قانونية للأفراد والشركات وفق الأنظمة السعودية.'
+        : 'Khaled Al-Faifi Law Office in Riyadh, providing legal services for individuals and companies under Saudi regulations.');
+
+    this.title.setTitle(titleMap[this.page()]);
+    this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ property: 'og:title', content: titleMap[this.page()] });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    const siteUrl = environment.siteUrl || window.location.origin;
+    this.meta.updateTag({ property: 'og:image', content: `${siteUrl}/assets/office-hero-ai.png` });
+    this.meta.updateTag({ property: 'og:type', content: selectedPost ? 'article' : 'website' });
   }
 }
