@@ -44,9 +44,11 @@ interface LegalService {
 })
 export class App implements OnInit {
   private readonly apiUrl = environment.apiUrl;
+  private heroTimer?: ReturnType<typeof setInterval>;
 
   language = signal<Language>('ar');
   page = signal<Page>('home');
+  heroSlide = signal(0);
   openServiceIndex = signal(0);
   selectedBlogId = signal<number | null>(null);
   mobileMenuOpen = signal(false);
@@ -224,6 +226,10 @@ export class App implements OnInit {
     if (this.adminToken) {
       this.loadAdmin();
     }
+
+    this.heroTimer = setInterval(() => {
+      this.heroSlide.set(this.heroSlide() === 0 ? 1 : 0);
+    }, 6500);
   }
 
   switchLanguage(language: Language): void {
@@ -471,27 +477,38 @@ export class App implements OnInit {
     const lang = this.language();
     const selectedPost = this.selectedBlog();
     const titleMap: Record<Page, string> = {
-      home: lang === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations',
-      services: lang === 'ar' ? 'الخدمات القانونية | خالد الفيفي' : 'Legal Services | Khaled Al-Faifi',
+      home: lang === 'ar'
+        ? 'المحامي خالد الفيفي | محاماة واستشارات قانونية في الرياض'
+        : 'Lawyer Khaled Al-Faifi | Legal Services in Riyadh',
+      services: lang === 'ar'
+        ? 'الخدمات القانونية | المحامي خالد الفيفي'
+        : 'Legal Services | Lawyer Khaled Al-Faifi',
       blogs: selectedPost
-        ? `${this.text(selectedPost, 'title')} | ${lang === 'ar' ? 'خالد الفيفي' : 'Khaled Al-Faifi'}`
-        : (lang === 'ar' ? 'المدونة القانونية | خالد الفيفي' : 'Legal Blog | Khaled Al-Faifi'),
-      videos: lang === 'ar' ? 'المكتبة المرئية | خالد الفيفي' : 'Video Library | Khaled Al-Faifi',
+        ? `${this.text(selectedPost, 'title')} | ${lang === 'ar' ? 'المحامي خالد الفيفي' : 'Lawyer Khaled Al-Faifi'}`
+        : (lang === 'ar' ? 'المدونة القانونية | المحامي خالد الفيفي' : 'Legal Blog | Lawyer Khaled Al-Faifi'),
+      videos: lang === 'ar'
+        ? 'المكتبة المرئية | المحامي خالد الفيفي'
+        : 'Video Library | Lawyer Khaled Al-Faifi',
       admin: lang === 'ar' ? 'لوحة التحكم | خالد الفيفي' : 'Admin Dashboard | Khaled Al-Faifi'
     };
 
     const description = selectedPost
       ? this.text(selectedPost, 'excerpt')
       : (lang === 'ar'
-        ? 'مكتب خالد الفيفي للمحاماة والاستشارات القانونية في الرياض، خدمات قانونية للأفراد والشركات وفق الأنظمة السعودية.'
-        : 'Khaled Al-Faifi Law Office in Riyadh, providing legal services for individuals and companies under Saudi regulations.');
+        ? 'مكتب المحامي خالد الفيفي للمحاماة والاستشارات القانونية في الرياض، يقدم خدمات قانونية للأفراد والشركات وفق الأنظمة السعودية.'
+        : 'Lawyer Khaled Al-Faifi Law Office in Riyadh, providing legal services for individuals and companies under Saudi regulations.');
 
     this.title.setTitle(titleMap[this.page()]);
     this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ name: 'keywords', content: lang === 'ar'
+      ? 'المحامي خالد الفيفي, مكتب المحامي خالد الفيفي, محامي في الرياض, محاماة واستشارات قانونية, خالد الفيفي'
+      : 'Lawyer Khaled Al-Faifi, Khaled Al-Faifi Law Office, lawyer in Riyadh, legal consultations Saudi Arabia' });
     this.meta.updateTag({ property: 'og:title', content: titleMap[this.page()] });
     this.meta.updateTag({ property: 'og:description', content: description });
     const siteUrl = environment.siteUrl || window.location.origin;
-    this.meta.updateTag({ property: 'og:image', content: `${siteUrl}/assets/office-hero-ai.png` });
+    this.meta.updateTag({ property: 'og:image', content: `${siteUrl}/assets/law-hero-luxury-office.png` });
     this.meta.updateTag({ property: 'og:type', content: selectedPost ? 'article' : 'website' });
+    this.meta.updateTag({ property: 'og:url', content: `${siteUrl}${this.router.url}` });
+    this.meta.updateTag({ property: 'og:locale', content: lang === 'ar' ? 'ar_SA' : 'en_US' });
   }
 }

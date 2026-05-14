@@ -69,11 +69,11 @@
 
   <ng-container *ngIf="page() === 'home'">
     <section class="hero statement-hero">
-      <span class="hero-slide slide-one" aria-hidden="true"></span>
-      <span class="hero-slide slide-two" aria-hidden="true"></span>
+      <span class="hero-slide slide-one" [class.active]="heroSlide() === 0" aria-hidden="true"></span>
+      <span class="hero-slide slide-two" [class.active]="heroSlide() === 1" aria-hidden="true"></span>
       <img class="hero-watermark" src="/assets/logo-clean.png" alt="">
       <div class="hero-copy statement-copy">
-        <div class="hero-message message-one">
+        <div class="hero-message message-one" [class.active]="heroSlide() === 0">
           <p class="eyebrow">{{ language() === 'ar' ? 'مرحباً بكم' : 'Welcome' }}</p>
           <h1>{{ language() === 'ar' ? 'خالد الفيفي للمحاماة والاستشارات القانونية' : 'Khaled Al-Faifi Law and Legal Consultations' }}</h1>
           <span class="hero-rule"></span>
@@ -86,7 +86,7 @@
             <a class="primary-action" routerLink="/services">{{ language() === 'ar' ? 'خدماتنا' : 'Our services' }}</a>
           </div>
         </div>
-        <div class="hero-message message-two">
+        <div class="hero-message message-two" [class.active]="heroSlide() === 1">
           <p class="eyebrow">{{ language() === 'ar' ? 'تحتاج إلى مساعدة قانونية؟' : 'Need legal support?' }}</p>
           <h1>{{ language() === 'ar' ? 'احجز استشارتك القانونية' : 'Request your legal consultation' }}</h1>
           <span class="hero-rule"></span>

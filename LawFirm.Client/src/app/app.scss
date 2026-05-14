@@ -295,7 +295,6 @@ main {
 }
 
 .hero-slide {
-  animation: heroImageFade 12s infinite;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -303,6 +302,12 @@ main {
   opacity: 0;
   position: absolute;
   transform: scale(1.06);
+  transition: opacity 900ms ease, transform 6200ms ease;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1.13);
 }
 
 .slide-one {
@@ -310,7 +315,6 @@ main {
 }
 
 .slide-two {
-  animation-delay: 6s;
   background-image: url("/assets/law-consultation-room.png");
 }
 
@@ -360,15 +364,18 @@ main {
 }
 
 .hero-message {
-  animation: heroTextCycle 12s infinite;
   grid-column: 1;
   grid-row: 1;
+  pointer-events: none;
   opacity: 0;
   transform: translateY(24px);
+  transition: opacity 600ms ease, transform 600ms ease;
 }
 
-.message-two {
-  animation-delay: 6s;
+.hero-message.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .statement-copy h1 {
@@ -565,42 +572,6 @@ textarea:focus-visible {
   }
 }
 
-@keyframes heroImageFade {
-  0% {
-    opacity: 0;
-    transform: scale(1.06);
-  }
-
-  10%,
-  44% {
-    opacity: 1;
-  }
-
-  52%,
-  100% {
-    opacity: 0;
-    transform: scale(1.13);
-  }
-}
-
-@keyframes heroTextCycle {
-  0% {
-    opacity: 0;
-    transform: translateY(26px);
-  }
-
-  10%,
-  44% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  52%,
-  100% {
-    opacity: 0;
-    transform: translateY(-18px);
-  }
-}
 
 .about-story,
 .services-preview,
@@ -2272,6 +2243,17 @@ td {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
+  }
+
+  .hero-slide,
+  .hero-message {
+    animation: none !important;
+  }
+
+  .hero-slide.active,
+  .hero-message.active {
+    opacity: 1;
+    transform: none;
   }
 }
 
