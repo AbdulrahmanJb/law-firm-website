@@ -1,15 +1,24 @@
 # Law Firm Website
 
-Arabic-first full-stack website for a Saudi law office, built with Angular, ASP.NET Core, Entity Framework Core, and SQL Server. The project combines a public marketing site with an admin dashboard for content, consultations, and visit tracking.
+Arabic-first full-stack website for a Saudi law office, built with Angular, ASP.NET Core, Entity Framework Core, and SQL Server. The project combines a public marketing site with an admin dashboard for content, consultations, legal content, and visit tracking.
+
+## Live Demo
+
+- Website: https://alfaifi-law.com
+
+## Preview
+
+![Law firm website preview](LawFirm.Client/public/assets/law-hero-luxury-office.png)
 
 ## Highlights
 
 - Responsive Arabic/English interface with RTL support and SEO metadata.
 - Public pages for services, legal articles, YouTube video content, and consultation requests.
 - Admin dashboard for managing blog posts, videos, consultation requests, and visit metrics.
-- ASP.NET Core API with JWT-style admin authentication and protected admin endpoints.
+- ASP.NET Core API with admin authentication and protected admin endpoints.
 - Entity Framework Core persistence using SQL Server LocalDB for development.
 - Angular production build is published through the ASP.NET Core app as static files.
+- Production configuration notes for connection strings, admin credentials, JWT secret, CORS, sitemap, and API URL.
 
 ## Tech Stack
 
@@ -33,12 +42,25 @@ DEPLOYMENT.md             Production configuration notes
 
 ## Core Features
 
-- Bilingual landing page with service navigation, legal content previews, and contact actions.
+### Public Website
+
+- Bilingual home page with service navigation, legal content previews, and contact actions.
 - Consultation request form backed by the API.
 - Blog and video library served from the database with local fallback content.
-- Admin login, dashboard statistics, content CRUD, and consultation review workflow.
+- Dynamic page titles, descriptions, canonical URLs, Open Graph tags, sitemap, and robots file.
+
+### Admin Dashboard
+
+- Local admin login for protected dashboard access.
+- Blog and video content management.
+- Consultation request review workflow.
 - Daily visit tracking by route.
-- Sitemap, robots file, canonical URL handling, Open Graph metadata, and production API configuration.
+
+### Backend API
+
+- Public content endpoints for services, blogs, videos, consultations, and visits.
+- Protected admin endpoints for dashboard data and content management.
+- EF Core models for consultations, blog posts, video items, services, and daily visits.
 
 ## Run Locally
 
