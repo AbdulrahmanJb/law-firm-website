@@ -1,59 +1,58 @@
-# LawFirmClient
+# Law Firm Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+Angular frontend for the Law Firm Website. The client provides the bilingual public experience, admin dashboard UI, route-based SEO metadata, and API integration for consultation requests, content, and analytics.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Arabic-first interface with English language toggle.
+- RTL/LTR layout switching.
+- Responsive pages for home, services, blog articles, video library, and admin.
+- Consultation request form connected to the ASP.NET Core API.
+- Admin flows for blog posts, videos, consultation review, and dashboard statistics.
+- YouTube embed and thumbnail handling.
+- Dynamic page titles, descriptions, canonical URLs, Open Graph tags, sitemap, and robots file.
 
-```bash
-ng serve
+## Development
+
+Install dependencies:
+
+```powershell
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Start the development server:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```powershell
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open:
 
-```bash
-ng generate --help
+```text
+http://127.0.0.1:4200
 ```
 
-## Building
+## Build
 
-To build the project run:
-
-```bash
-ng build
+```powershell
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The production build is generated under:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```text
+dist/LawFirm.Client/browser
 ```
 
-## Running end-to-end tests
+The ASP.NET Core API project includes these files during publish.
 
-For end-to-end (e2e) testing, run:
+## Configuration
 
-```bash
-ng e2e
+Environment files live in:
+
+```text
+src/environments/environment.ts
+src/environments/environment.prod.ts
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Set `apiUrl` and `siteUrl` to match the deployment target.
