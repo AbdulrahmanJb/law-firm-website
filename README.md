@@ -117,16 +117,18 @@ When publishing the API, the project includes the Angular production build from:
 LawFirm.Client\dist\LawFirm.Client\browser
 ```
 
-## Local Admin Login
+## Local Admin Setup
 
-Development credentials are configured for local testing only:
+Admin credentials and JWT secrets are intentionally not committed to source control. For local development, store them with .NET user secrets:
 
-```text
-Email: admin@lawfirm.local
-Password: ChangeMe123!
+```powershell
+dotnet user-secrets init --project LawFirm.Api\LawFirm.Api.csproj
+dotnet user-secrets set "Admin:Email" "admin@lawfirm.local" --project LawFirm.Api\LawFirm.Api.csproj
+dotnet user-secrets set "Admin:Password" "<local-admin-password>" --project LawFirm.Api\LawFirm.Api.csproj
+dotnet user-secrets set "Admin:JwtSecret" "<at-least-32-random-characters>" --project LawFirm.Api\LawFirm.Api.csproj
 ```
 
-For production, replace these values with secure settings as described in [DEPLOYMENT.md](DEPLOYMENT.md).
+For production, use a hashed password and server-side environment/app settings as described in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Production Notes
 
