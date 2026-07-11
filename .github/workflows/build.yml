@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build API and Client
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: npm
+          cache-dependency-path: LawFirm.Client/package-lock.json
+
+      - name: Restore .NET dependencies
+        run: dotnet restore LawFirmWebsite.slnx
+
+      - name: Install client dependencies
+        working-directory: LawFirm.Client
+        run: npm ci
+
+      - name: Build client
+        working-directory: LawFirm.Client
+        run: npm run build
+
+      - name: Build API
+        run: dotnet build LawFirmWebsite.slnx --configuration Release --no-restore
