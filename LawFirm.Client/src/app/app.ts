@@ -199,7 +199,7 @@ export class App implements OnInit {
   consultationError = '';
 
   consultation = { fullName: '', phone: '', email: '', serviceType: 'طلب استشارة', message: '' };
-  login = { email: 'admin@lawfirm.local', password: 'ChangeMe123!' };
+  login = { email: '', password: '' };
   newBlog = { titleAr: '', titleEn: '', excerptAr: '', excerptEn: '', contentAr: '', contentEn: '', isPublished: true };
   newVideo = { titleAr: '', titleEn: '', videoUrl: '' };
 
