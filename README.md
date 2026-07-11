@@ -1,5 +1,7 @@
 # Law Firm Website
 
+[![Build](https://github.com/AbdulrahmanJb/law-firm-website/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/AbdulrahmanJb/law-firm-website/actions/workflows/build.yml)
+
 Arabic-first full-stack website for a Saudi law office, built with Angular, ASP.NET Core, Entity Framework Core, and SQL Server. The project combines a public marketing site with an admin dashboard for content, consultations, legal content, and visit tracking.
 
 ## Live Demo
